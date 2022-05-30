@@ -24,6 +24,12 @@ namespace WebApi_FileCloud.DataLayer.Services
             return users;
         }
 
+        public async Task<List<User>> GetUsersByLogin(string login)
+        {
+            var users = await new DB.MSSQL().Request<User>(UserQueries.GetUsersByLogin(login), Account.ConnectionString);
+            return users;
+        }
+
         public async Task InsertUser(User u)
         {
             var temp = await new DB.MSSQL().Request<User>(UserQueries.GetUsersById(u.id_user), Account.ConnectionString);

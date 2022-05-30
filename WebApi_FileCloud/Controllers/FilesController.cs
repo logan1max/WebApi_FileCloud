@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApi_FileCloud.DataLayer.Services;
+using WebApi_FileCloud.Models;
+using System.IO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,8 +17,8 @@ namespace WebApi_FileCloud.Controllers
     public class FilesController : ControllerBase
     {
         FileService _fSvc = new FileService();
+        UserService _uSvc = new UserService();
 
-        // GET: api/<ValuesController>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -29,28 +31,66 @@ namespace WebApi_FileCloud.Controllers
             catch (Exception ex) { return new BadRequestResult(); }
         }
 
-        // GET api/<ValuesController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+       // [Route("Fileuser")]
+        [HttpGet("{login}")]
+        public async Task<IActionResult> Get(string login)
         {
-            return "value";
+            try
+            {
+                var users = await _uSvc.GetUsersByLogin(login);
+
+                var dt = await _fSvc.GetFilesByUser(users.FirstOrDefault().id_user);
+
+                return Content(JsonConvert.SerializeObject(dt, Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore }));
+            }
+            catch (Exception ex) { return new BadRequestResult(); }
         }
 
-        // POST api/<ValuesController>
+
+        [Route("Insert")]
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] AddFileToUser addFile)
         {
-            
+            try
+            {
+                var users = await _uSvc.GetUsersByLogin(addFile.login);
+
+                string path = @"\FileCloud\" + users.FirstOrDefault().id_user;
+
+                DirectoryInfo dirInfo = new DirectoryInfo(path);
+                if (!dirInfo.Exists)
+                {
+                    dirInfo.Create();
+                }
+
+                FileInfo fileInfo = new FileInfo(addFile.filePath);
+
+                fileInfo.CopyTo(path + @"\" + fileInfo.Name);
+
+                Files files = new Files
+                {
+                    name = fileInfo.Name,
+                    size = fileInfo.Length,
+                    source = fileInfo.FullName,
+                    owner = users.FirstOrDefault().id_user
+                };
+
+                await _fSvc.InsertFile(files);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
-        // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
 
         }
 
-        // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

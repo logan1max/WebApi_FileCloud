@@ -19,8 +19,6 @@ namespace WebApi_FileCloud.Controllers
     {
         UserService _uSvc = new UserService();
 
-        // GET: api/<ValuesController>
-       // [Route("GetUsers")]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -37,8 +35,6 @@ namespace WebApi_FileCloud.Controllers
             }
         }
 
-        // GET api/<ValuesController>/5
-        // [Route("GetUsersById")]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -55,30 +51,30 @@ namespace WebApi_FileCloud.Controllers
             }
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Post([FromBody] User u)
-        //{
-        //    try
-        //    {
-        //        await _uSvc.InsertUser(u);
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] User u)
+        {
+            try
+            {
+                await _uSvc.InsertUser(u);
 
-        //        string path = @"\FileCloud\" + u.id_user.ToString();
+                string path = @"\FileCloud\" + u.id_user.ToString();
 
-        //        DirectoryInfo dirInfo = new DirectoryInfo(path);
-        //        if (!dirInfo.Exists)
-        //        {
-        //            dirInfo.Create();
-        //        }
+                DirectoryInfo dirInfo = new DirectoryInfo(path);
+                if (!dirInfo.Exists)
+                {
+                    dirInfo.Create();
+                }
 
-        //        return new OkResult();
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        return new BadRequestResult();
-        //    }
-        //}
+                return new OkResult();
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestResult();
+            }
+        }
 
-
+        [Route("Authorize")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Person p)
         {
@@ -95,8 +91,6 @@ namespace WebApi_FileCloud.Controllers
             
         }
 
-
-        // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
