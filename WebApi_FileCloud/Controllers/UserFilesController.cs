@@ -20,11 +20,12 @@ namespace WebApi_FileCloud.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var dt = await _uFSvc.GetUserFiles();
-
-            return Content(JsonConvert.SerializeObject(dt, Formatting.Indented, new JsonSerializerSettings
-            { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore }));
-        }
+            try
+            {
+                var dt = await _uFSvc.GetUserFiles();
+                return Content(JsonConvert.SerializeObject(dt, Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore }));
+            }
+            catch (Exception ex) { return new BadRequestResult(); }        }
 
 
         // GET api/<ValuesController>/5

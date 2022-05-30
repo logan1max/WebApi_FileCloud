@@ -21,6 +21,19 @@ namespace WebApi_FileCloud.DataLayer.Queries
             return sqlCommand;
         }
 
+        public static SQLCommand GetUsersById(int id)
+        {
+            string sqlString =
+                "SELECT * " +
+                "FROM [USERS] " +
+                "WHERE [ID_USER] = " + id;
+            var parameters = new List<KeyValuePair<string, object>>
+            {
+            };
+            var sqlCommand = new SQLCommand(parameters, sqlString);
+            return sqlCommand;
+        }
+
         public static SQLCommand InsertUser(User u)
         {
             string sqlString =

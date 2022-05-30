@@ -10,6 +10,5 @@ namespace WebApi_FileCloud.Models
         public int id_file { get; set; }
         public string name { get; set; }
         public string source { get; set; }
-        public float size { get; set; }
     }
 }
