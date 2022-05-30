@@ -23,6 +23,7 @@ namespace WebApi_FileCloud.Controllers
             try
             {
                 var dt = await _fSvc.GetFiles();
+
                 return Content(JsonConvert.SerializeObject(dt, Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore }));
             }
             catch (Exception ex) { return new BadRequestResult(); }
@@ -46,6 +47,7 @@ namespace WebApi_FileCloud.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+
         }
 
         // DELETE api/<ValuesController>/5

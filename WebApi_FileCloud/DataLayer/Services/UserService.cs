@@ -33,5 +33,19 @@ namespace WebApi_FileCloud.DataLayer.Services
                 await new DB.MSSQL().Request(UserQueries.InsertUser(u), Account.ConnectionString);
             }
         }
+
+        public async Task<bool> AuthUser(Person p)
+        {
+            var temp = await new DB.MSSQL().Request<User>(UserQueries.AuthUser(p), Account.ConnectionString);
+
+            if (temp.FirstOrDefault() != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

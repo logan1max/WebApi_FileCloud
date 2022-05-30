@@ -19,16 +19,6 @@ namespace WebApi_FileCloud
         {
             Account.ConnectionString = @"Server=.\SQLEXPRESS;Database=FileCloud;Trusted_Connection=True;";
 
-            UserService _uSvc = new UserService();
-
-            var temp = await _uSvc.GetUsers();
-
-            foreach(var t in temp)
-            {
-                Console.WriteLine(t.id_user);
-            }
-
-
             CreateHostBuilder(args).Build().Run();
         }
 

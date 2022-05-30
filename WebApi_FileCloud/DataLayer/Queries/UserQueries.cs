@@ -54,5 +54,21 @@ namespace WebApi_FileCloud.DataLayer.Queries
             var sqlCommand = new SQLCommand(parameters, sqlString);
             return sqlCommand;
         }
+
+        public static SQLCommand AuthUser(Person p)
+        {
+            string sqlString =
+                @$"SELECT * 
+                FROM [USERS] 
+                WHERE [LOGIN] = @LOGIN
+                AND [PASSWORD] = @PASSWORD";                
+            var parameters = new List<KeyValuePair<string, object>>
+            {
+                new KeyValuePair<string, object>("@LOGIN", p.login),
+                new KeyValuePair<string, object>("@PASSWORD", p.password),
+            };
+            var sqlCommand = new SQLCommand(parameters, sqlString);
+            return sqlCommand;
+        }
     }
 }

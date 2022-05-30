@@ -20,6 +20,10 @@ namespace WebApi_FileCloud.DataLayer.Queries
             return sqlCommand;
         }
 
+        
+
+
+
         public static SQLCommand DeleteFilesById(int id)
         {
             string sqlString =
