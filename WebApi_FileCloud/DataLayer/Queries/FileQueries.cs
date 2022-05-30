@@ -19,5 +19,29 @@ namespace WebApi_FileCloud.DataLayer.Queries
             var sqlCommand = new SQLCommand(parameters, sqlString);
             return sqlCommand;
         }
+
+        public static SQLCommand DeleteFilesById(int id)
+        {
+            string sqlString =
+                "SELECT FROM [FILES] " +
+                "WHERE [ID_FILE] = " + id;
+            var parameters = new List<KeyValuePair<string, object>>
+            {
+            };
+            var sqlCommand = new SQLCommand(parameters, sqlString);
+            return sqlCommand;
+        }
+
+        public static SQLCommand DeleteFilesByUserId(int id)
+        {
+            string sqlString =
+                "SELECT * " +
+                "FROM [FILES]";
+            var parameters = new List<KeyValuePair<string, object>>
+            {
+            };
+            var sqlCommand = new SQLCommand(parameters, sqlString);
+            return sqlCommand;
+        }
     }
 }

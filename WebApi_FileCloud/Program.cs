@@ -17,7 +17,7 @@ namespace WebApi_FileCloud
     {
         public static async Task Main(string[] args)
         {
-            Account.ConnectionString = @"Server=.\SQLEXPRESS;Database=FileCloud;Trusted_Connection=True;User Id=teacher111;Password=42564661";
+            Account.ConnectionString = @"Server=.\SQLEXPRESS;Database=FileCloud;Trusted_Connection=True;";
 
             UserService _uSvc = new UserService();
 

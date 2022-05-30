@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +27,8 @@ namespace WebApi_FileCloud
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+            services.AddSession();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -37,6 +40,19 @@ namespace WebApi_FileCloud
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSession();
+
+            //app.Run(async (context) =>
+            //{
+            //    if (context.Session.Keys.Contains("name"))
+            //        await context.Response.WriteAsync($"Hello {context.Session.GetString("name")}!");
+            //    else
+            //    {
+            //        context.Session.SetString("name", "Tom");
+            //        await context.Response.WriteAsync("Hello World!");
+            //    }
+            //});
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

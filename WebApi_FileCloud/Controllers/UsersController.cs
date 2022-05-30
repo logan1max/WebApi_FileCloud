@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace WebApi_FileCloud.Controllers
 
         // GET: api/<ValuesController>
        // [Route("GetUsers")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -37,7 +39,8 @@ namespace WebApi_FileCloud.Controllers
         }
 
         // GET api/<ValuesController>/5
-       // [Route("GetUsersById")]
+        // [Route("GetUsersById")]
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -54,12 +57,13 @@ namespace WebApi_FileCloud.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] User u)
         {
             try
             {
-                await _uSvc.UpdateUser(u);
+                await _uSvc.InsertUser(u);
 
                 string path = @"\FileCloud\" + u.id_user.ToString();
 
@@ -78,9 +82,11 @@ namespace WebApi_FileCloud.Controllers
         }
 
         // DELETE api/<ValuesController>/5
+        [Authorize]
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+
         }
     }
 }
