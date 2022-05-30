@@ -12,20 +12,19 @@ namespace WebApi_FileCloud.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserFilesController : ControllerBase
+    public class FilesController : ControllerBase
     {
-        UserFileService _uFSvc = new UserFileService();
-        
-        [Route("GetUserFilesFromDB")]
+        FileService _fSvc = new FileService();
+
+        // GET: api/<ValuesController>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var dt = await _uFSvc.GetUserFiles();
+            var dt = await _fSvc.GetFiles();
 
             return Content(JsonConvert.SerializeObject(dt, Formatting.Indented, new JsonSerializerSettings
             { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore }));
         }
-
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
@@ -38,6 +37,7 @@ namespace WebApi_FileCloud.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
+            
         }
 
         // PUT api/<ValuesController>/5

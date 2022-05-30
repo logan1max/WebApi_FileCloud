@@ -8,15 +8,13 @@ using WebApi_FileCloud.Models;
 
 namespace WebApi_FileCloud.DataLayer.Services
 {
-    public class UserService
+    public class FileService
     {
-        public async Task<List<User>> GetUsers()
+        public async Task<List<File>> GetFiles()
         {
-            var users = await new DB.MSSQL().Request<User>(UserQueries.GetUsers(), Account.ConnectionString);
-            
-            return users;
-        }
+            var files = await new DB.MSSQL().Request<File>(FileQueries.GetFiles(), Account.ConnectionString);
 
-        public 
+            return files;
+        }
     }
 }
