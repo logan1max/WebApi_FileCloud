@@ -7,7 +7,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Web.Helpers;
 using WebApi_FileCloud.Models;
+using WebApi_FileCloud.DataLayer.Services;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,10 +25,21 @@ namespace WebApi_FileCloud.Controllers
             new Person { login="qwerty@gmail.com", password="55555"}
         };
 
-        [HttpPost("/token")]
-        public IActionResult Token(string username, string password)
+   //     private List<User> users;
+
+        private async Task<List<User>> GetUsers()
         {
-            var identity = GetIdentity(username, password);
+            UserService userService = new UserService();
+
+            var res = await userService.GetUsers();
+
+            return res;
+        }
+
+        [HttpPost("/token")]
+        public async Task<IActionResult> Token(string username, string password)
+        {
+            var identity = GetIdentityAsync(username, password);
             if (identity == null)
             {
                 return BadRequest(new { errorText = "Invalid username or password." });
@@ -52,9 +65,11 @@ namespace WebApi_FileCloud.Controllers
             return Ok(response);
         }
 
-        private ClaimsIdentity GetIdentity(string username, string password)
+        private async Task<ClaimsIdentity> GetIdentityAsync(string username, string password)
         {
-            Person person = people.FirstOrDefault(x => x.login == username && x.password == password);
+            List<User> users = await GetUsers();
+
+            User person = users.FirstOrDefault(x => x.login == username && x.password == password);
             if (person != null)
             {
                 var claims = new List<Claim>

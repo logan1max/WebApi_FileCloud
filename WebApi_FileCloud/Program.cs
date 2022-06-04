@@ -13,7 +13,8 @@ using WebApi_FileCloud.DataLayer.Services;
 
 namespace WebApi_FileCloud
 {
-    public class Program
+    public class Program22
+
     {
         public static async Task Main(string[] args)
         {
